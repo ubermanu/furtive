@@ -1,17 +1,22 @@
 {
   "name": "jquery-reveal",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "jQuery plugin that toggles visibility of HTML elements according to form input values",
   "main": "src/reveal.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/ubermanu/reveal.js"
   },
+  "scripts": {
+    "build": "rollup -c"
+  },
   "author": "Emmanuel Vodor",
   "license": "MIT",
   "homepage": "https://github.com/ubermanu/reveal.js",
   "devDependencies": {
     "jquery": "^3.0.0",
+    "rollup": "^0.56.0",
+    "rollup-plugin-uglify": "^3.0.0",
     "skeleton-css": "^2.0.0"
   }
 }

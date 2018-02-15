@@ -1,0 +1,17 @@
+{
+  "name": "jquery-reveal",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/reveal.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ubermanu/reveal.js"
+  },
+  "author": "Emmanuel Vodor",
+  "license": "MIT",
+  "homepage": "https://github.com/ubermanu/reveal.js",
+  "devDependencies": {
+    "jquery": "^3.0.0",
+    "skeleton-css": "^2.0.0"
+  }
+}

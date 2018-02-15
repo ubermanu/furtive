@@ -1,0 +1,4 @@
+/* Hide by default for a smoother result */
+[data-reveal-condition] {
+  display: none;
+}

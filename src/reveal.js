@@ -1,7 +1,8 @@
-;(function (window) {
+(function () {
 
     /**
      * This function will bind all the main watcher to all the container elements.
+     *
      * @private
      */
     var Reveal = function ($container) {
@@ -68,8 +69,7 @@
     /**
      * Initialize the Reveal plugin on the selection.
      *
-     * @returns {Array}
-     * @constructor
+     * @public
      */
     $.fn.reveal = function () {
 
@@ -89,6 +89,8 @@
      * Auto binding is set to TRUE by default.
      * Disable hidden <input> elements is set to TRUE by default.
      * Custom "pseudos" can be added as well.
+     *
+     * @public
      */
     if ('undefined' === typeof window.Reveal) {
         window.Reveal = {
@@ -116,4 +118,4 @@
         });
     }
 
-}(window));
+}());

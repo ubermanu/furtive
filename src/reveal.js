@@ -2,14 +2,13 @@
 
     /**
      * This function will bind all the main watcher to all the container elements.
-     * TODO: Add "disabled" property for hidden input elements
-     *
-     * @constructor
+     * @private
      */
     var Reveal = function ($container) {
 
         var condition = 'data-reveal-condition';
         var conjunction = 'data-reveal-conjunction';
+        var disabled = 'data-reveal-disabled';
 
         // Use an internal copy of jQuery at this point (to avoid conflict with other pseudos)
         var _jQuery = jQuery;
@@ -20,6 +19,7 @@
 
                 var cond = _jQuery(item).attr(condition);
                 var conj = _jQuery(item).attr(conjunction);
+                var $item = $(item);
 
                 if (cond !== undefined) {
 
@@ -30,7 +30,26 @@
                         ? $container.find(cond).length === condCount
                         : $container.find(cond).length > 0;
 
-                    $container.find(item).toggle(visible);
+                    $item.toggle(visible);
+
+                    if (false !== window.Reveal.disableHidden) {
+                        $item.find(':input').each(function (z, input) {
+
+                            var $input = $(input);
+
+                            // Stash the old disabled property and apply new one
+                            if (!visible && $input.attr(disabled) === undefined) {
+                                $input.attr(disabled, $input.prop('disabled'));
+                                $input.attr('disabled', true);
+                            }
+
+                            // Re-apply the old disabled property
+                            if (visible) {
+                                $input.prop('disabled', $input.attr(disabled) === 'true');
+                                $input.removeAttr(disabled)
+                            }
+                        });
+                    }
                 }
             });
         };
@@ -68,11 +87,13 @@
     /**
      * Ensure the extension is now defined if it wasn't previously.
      * Auto binding is set to TRUE by default.
+     * Disable hidden <input> elements is set to TRUE by default.
      * Custom "pseudos" can be added as well.
      */
     if ('undefined' === typeof window.Reveal) {
         window.Reveal = {
             'autoBind': true,
+            'disableHidden': true,
             'pseudos': {
                 'equals': function (e, index, parts) {
                     return $(e).val() === parts[3];

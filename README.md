@@ -43,3 +43,9 @@ It's possible to disable the auto-binding using:
 ```js
 window.Reveal.autoBind = false
 ```
+
+It's possible to keep form elements enabled when hidden using:
+
+```js
+window.Reveal.disableHidden = false
+```

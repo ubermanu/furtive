@@ -12,7 +12,7 @@
 
         // Use an internal copy of jQuery at this point (to avoid conflict with other pseudos)
         var _jQuery = jQuery;
-        _jQuery.extend(jQuery.expr[':'], Reveal.pseudos);
+        _jQuery.extend(jQuery.expr[':'], window.Reveal.pseudos);
 
         var watcher = function () {
             $container.find('[' + condition + ']').each(function (k, item) {

@@ -38,13 +38,13 @@ The **OR** conjunction is used by default.
 
 ### Options
 
-It's possible to disable the auto-binding using:
+Disable the auto-binding at start:
 
 ```js
 window.Reveal.autoBind = false
 ```
 
-It's possible to keep form elements enabled when hidden using:
+Keep form elements enabled when hidden:
 
 ```js
 window.Reveal.disableHidden = false

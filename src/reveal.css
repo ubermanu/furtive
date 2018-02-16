@@ -1,4 +1,4 @@
 /* Hide by default for a smoother result */
-[data-reveal-condition] {
+[data-reveal-condition]:not([data-reveal-condition=""]) {
   display: none;
 }

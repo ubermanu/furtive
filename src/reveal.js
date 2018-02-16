@@ -5,29 +5,29 @@
      *
      * @private
      */
-    var Reveal = function ($container) {
+    let Reveal = function ($container) {
 
-        var condition = 'data-reveal-condition';
-        var conjunction = 'data-reveal-conjunction';
-        var disabled = 'data-reveal-disabled';
+        const condition = 'data-reveal-condition';
+        const conjunction = 'data-reveal-conjunction';
+        const disabled = 'data-reveal-disabled';
 
         // Use an internal copy of jQuery at this point (to avoid conflict with other pseudos)
-        var _jQuery = jQuery;
+        const _jQuery = jQuery;
         _jQuery.extend(jQuery.expr[':'], window.Reveal.pseudos);
 
-        var watcher = function () {
+        let watcher = function () {
             $container.find('[' + condition + ']').each(function (k, item) {
 
-                var cond = _jQuery(item).attr(condition);
-                var conj = _jQuery(item).attr(conjunction);
-                var $item = $(item);
+                let cond = _jQuery(item).attr(condition);
+                let conj = _jQuery(item).attr(conjunction);
+                let $item = $(item);
 
-                if (cond !== undefined) {
+                if (cond !== undefined && cond.length) {
 
                     // Strip contained quoted strings
-                    var condCount = cond.replace(/'((?:\\.|[^'\\])*)'/g, '').split(',').length;
+                    let condCount = cond.replace(/'((?:\\.|[^'\\])*)'/g, '').split(',').length;
 
-                    var visible = (conj && conj.toLowerCase() === 'and')
+                    let visible = (conj && conj.toLowerCase() === 'and')
                         ? $container.find(cond).length === condCount
                         : $container.find(cond).length > 0;
 
@@ -36,7 +36,7 @@
                     if (false !== window.Reveal.disableHidden) {
                         $item.find(':input').each(function (z, input) {
 
-                            var $input = $(input);
+                            let $input = $(input);
 
                             // Stash the old disabled property and apply new one
                             if (!visible && $input.attr(disabled) === undefined) {

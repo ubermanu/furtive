@@ -11,6 +11,7 @@ let Reveal = function ($container) {
     const condition = 'data-reveal-condition'
     const conjunction = 'data-reveal-conjunction'
     const disabled = 'data-reveal-disabled'
+    const required = 'data-reveal-required'
 
     // Use an internal copy of jQuery at this point (to avoid conflict with other pseudos)
     const _jQuery = jQuery
@@ -39,16 +40,28 @@ let Reveal = function ($container) {
 
                         let $input = $(input)
 
-                        // Stash the old disabled property and apply new one
-                        if (!visible && $input.attr(disabled) === undefined) {
-                            $input.attr(disabled, $input.prop('disabled'))
-                            $input.attr('disabled', true)
+                        // Stash the old disabled and require properties and apply new one
+                        if (!visible) {
+
+                            if ($input.attr(disabled) === undefined) {
+                                $input.attr(disabled, $input.prop('disabled'))
+                                $input.prop('disabled', true)
+                            }
+
+                            if ($input.attr(required) === undefined) {
+                                $input.attr(required, $input.prop('required'))
+                                $input.prop('required', false)
+                            }
                         }
 
-                        // Re-apply the old disabled property
+                        // Re-apply the old disabled and required properties
                         if (visible) {
+
                             $input.prop('disabled', $input.attr(disabled) === 'true')
                             $input.removeAttr(disabled)
+
+                            $input.prop('required', $input.attr(required) === 'true')
+                            $input.removeAttr(required)
                         }
                     })
                 }

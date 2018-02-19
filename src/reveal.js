@@ -26,12 +26,19 @@ let Reveal = function ($container) {
 
             if (cond !== undefined && cond.length) {
 
-                // Strip contained quoted strings
-                let condCount = cond.replace(/'((?:\\.|[^'\\])*)'/g, '').split(',').length
+                // Extract selectors from the given condition
+                let selectors = cond.match(/('.*?'|[^',]+)+(?=\s*|\s*$)/g)
+                let matches = 0
+
+                for (let i = 0, l = selectors.length; i < l; i++) {
+                    if ($(selectors[i]).length) {
+                        matches++;
+                    }
+                }
 
                 let visible = (conj && conj.toLowerCase() === 'and')
-                    ? $container.find(cond).length === condCount
-                    : $container.find(cond).length > 0
+                    ? matches === selectors.length
+                    : matches > 0
 
                 $item.toggle(visible)
 

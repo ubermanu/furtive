@@ -20,8 +20,8 @@ let Reveal = function ($container) {
     let watcher = function () {
         $container.find('[' + condition + ']').each(function (k, item) {
 
-            let cond = _jQuery(item).attr(condition)
-            let conj = _jQuery(item).attr(conjunction)
+            let cond = $(item).attr(condition)
+            let conj = $(item).attr(conjunction)
             let $item = $(item)
 
             if (cond !== undefined && cond.length) {
@@ -31,7 +31,7 @@ let Reveal = function ($container) {
                 let matches = 0
 
                 for (let i = 0, l = selectors.length; i < l; i++) {
-                    if ($(selectors[i]).length) {
+                    if (_jQuery(selectors[i]).length) {
                         matches++;
                     }
                 }

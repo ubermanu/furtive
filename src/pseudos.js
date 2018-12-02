@@ -1,6 +1,6 @@
 /**
  * These are additional pseudos for the jQuery selector.
- * It's possible to add more in the object "window.Reveal.pseudos" if needed.
+ * It's possible to add more in the object "window.Furtive.pseudos" if needed.
  *
  * @private
  */

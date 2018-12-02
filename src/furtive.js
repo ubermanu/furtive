@@ -6,16 +6,16 @@ import pseudos from './pseudos.js';
  *
  * @private
  */
-let Reveal = function ($container) {
+let Furtive = function ($container) {
 
-    const condition = 'data-reveal-condition'
-    const conjunction = 'data-reveal-conjunction'
-    const disabled = 'data-reveal-disabled'
-    const required = 'data-reveal-required'
+    const condition = 'data-furtive-condition'
+    const conjunction = 'data-furtive-conjunction'
+    const disabled = 'data-furtive-disabled'
+    const required = 'data-furtive-required'
 
     // Use an internal copy of jQuery at this point (to avoid conflict with other pseudos)
     const _jQuery = jQuery
-    _jQuery.extend(jQuery.expr[':'], window.Reveal.pseudos)
+    _jQuery.extend(jQuery.expr[':'], window.Furtive.pseudos)
 
     let watcher = function () {
         $container.find('[' + condition + ']').each(function (k, item) {
@@ -42,7 +42,7 @@ let Reveal = function ($container) {
 
                 $item.toggle(visible)
 
-                if (false !== window.Reveal.disableHidden) {
+                if (false !== window.Furtive.disableHidden) {
                     $item.find(':input').each(function (z, input) {
 
                         let $input = $(input)
@@ -88,20 +88,20 @@ let Reveal = function ($container) {
 }
 
 /**
- * Initialize the Reveal plugin on the selection.
+ * Initialize the Furtive plugin on the selection.
  *
  * @public
  */
-$.fn.reveal = function () {
+$.fn.furtive = function () {
 
     if (this.length > 1) {
         this.each(function () {
-            $(this).reveal()
+            $(this).furtive()
         })
     }
 
     if (this.length === 1) {
-        Reveal($(this))
+        Furtive($(this))
     }
 }
 
@@ -113,8 +113,8 @@ $.fn.reveal = function () {
  *
  * @public
  */
-if ('undefined' === typeof window.Reveal) {
-    window.Reveal = {
+if ('undefined' === typeof window.Furtive) {
+    window.Furtive = {
         'autoBind': true,
         'disableHidden': true,
         'pseudos': pseudos,
@@ -123,12 +123,12 @@ if ('undefined' === typeof window.Reveal) {
 }
 
 /**
- * Auto-binding can be prevented by settings the "window.Reveal.autoBind" value to FALSE.
+ * Auto-binding can be prevented by settings the "window.Furtive.autoBind" value to FALSE.
  */
-if (false !== window.Reveal.autoBind) {
+if (false !== window.Furtive.autoBind) {
     $(function () {
-        if ($('[data-reveal-watch]').length) {
-            $('[data-reveal-watch]').reveal()
+        if ($('[data-furtive-watch]').length) {
+            $('[data-furtive-watch]').furtive()
         }
     })
 }

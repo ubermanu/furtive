@@ -1,0 +1,18 @@
+{
+  "name": "jquery-furtive",
+  "version": "2.0.0",
+  "description": "jQuery plugin that toggles visibility of HTML elements according to form input values",
+  "main": "src/furtive.js",
+  "authors": [
+    "Emmanuel Vodor"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/ubermanu/furtive",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

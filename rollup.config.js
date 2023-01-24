@@ -11,16 +11,30 @@ const output = {
   },
 }
 
-export default {
-  input: 'src/furtive.js',
-  output: [
-    output,
-    {
-      ...output,
-      file: pkg.main.replace(/.js$/, '.min.js'),
-      plugins: [terser()],
-    },
-  ],
-  plugins: [json()],
-  external: ['jquery'],
-}
+export default [
+  {
+    input: 'src/plugin.js',
+    output: [
+      output,
+      {
+        ...output,
+        file: pkg.main.replace(/.js$/, '.min.js'),
+        plugins: [terser()],
+      },
+    ],
+    plugins: [json()],
+    external: ['jquery'],
+  },
+  {
+    input: 'src/furtive.js',
+    output: [
+      {
+        file: pkg.module,
+        format: 'es',
+        sourcemap: true,
+      },
+    ],
+    plugins: [json()],
+    external: ['jquery'],
+  },
+]

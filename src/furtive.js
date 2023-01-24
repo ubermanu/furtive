@@ -1,6 +1,9 @@
 import $ from 'jquery'
-import { version } from '../package.json' assert { type: 'json' }
-import pseudos from './pseudos.js'
+
+const condition = 'data-furtive-condition'
+const conjunction = 'data-furtive-conjunction'
+const disabled = 'data-furtive-disabled'
+const required = 'data-furtive-required'
 
 /**
  * This function will bind all the main watcher to all the container elements.
@@ -8,11 +11,6 @@ import pseudos from './pseudos.js'
  * @private
  */
 let Furtive = function ($container) {
-  const condition = 'data-furtive-condition'
-  const conjunction = 'data-furtive-conjunction'
-  const disabled = 'data-furtive-disabled'
-  const required = 'data-furtive-required'
-
   // Use an internal copy of jQuery at this point (to avoid conflict with other pseudos)
   const _jQuery = $
   _jQuery.extend($.expr[':'], window.Furtive.pseudos)
@@ -79,49 +77,4 @@ let Furtive = function ($container) {
 
   $container.find(':text, textarea').keyup(watcher).triggerHandler('keyup')
 }
-
-/**
- * Initialize the Furtive plugin on the selection.
- *
- * @public
- */
-$.fn.furtive = function () {
-  if (this.length > 1) {
-    this.each(function () {
-      $(this).furtive()
-    })
-  }
-
-  if (this.length === 1) {
-    Furtive($(this))
-  }
-}
-
-/**
- * Ensure the extension is now defined if it wasn't previously.
- * Auto binding is set to TRUE by default.
- * Disable hidden <input> elements is set to TRUE by default.
- * Custom "pseudos" can be added as well.
- *
- * @public
- */
-if ('undefined' === typeof window.Furtive) {
-  window.Furtive = {
-    autoBind: true,
-    disableHidden: true,
-    pseudos,
-    version,
-  }
-}
-
-/**
- * Auto-binding can be prevented by settings the "window.Furtive.autoBind" value to FALSE.
- */
-if (false !== window.Furtive.autoBind) {
-  $(function () {
-    const el = $('[data-furtive-watch]')
-    return el.length && el.furtive()
-  })
-}
-
 export default Furtive

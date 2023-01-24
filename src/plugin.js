@@ -7,15 +7,15 @@ import { version } from '../package.json' assert { type: 'json' }
  * Initialize the Furtive plugin on the selection.
  * @public
  */
-$.fn.furtive = function () {
+$.fn.furtive = function (options) {
   if (this.length > 1) {
     this.each(function () {
-      $(this).furtive()
+      $(this).furtive(options)
     })
   }
 
   if (this.length === 1) {
-    Furtive($(this))
+    Furtive($(this), $.extend({}, window.Furtive, options))
   }
 }
 

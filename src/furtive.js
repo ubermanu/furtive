@@ -10,10 +10,10 @@ const HIDDEN_ATTR = 'data-furtive-hidden'
  * Re-evaluate the condition and show/hide the element accordingly.
  * @private
  */
-const update = (container) => () => {
+const update = (container, options) => () => {
   // Use an internal copy of jQuery at this point (to avoid conflict with other pseudos)
   const validator = $
-  validator.extend($.expr[':'], window.Furtive.pseudos)
+  validator.extend($.expr[':'], options.pseudos)
 
   const elements = container.find('[' + CONDITION_ATTR + ']')
 
@@ -50,7 +50,7 @@ const update = (container) => () => {
 
     // Disable/enable the hidden <input> elements
     // This is useful to prevent the browser to validate the form with hidden fields
-    if (window.Furtive.disableHidden) {
+    if (options.disableHidden) {
       const children = Array.from($item.find(':input'))
 
       // If the element is an input, add it to the list
@@ -102,8 +102,9 @@ const enableElement = (el) => {
  * This function will bind all the main watcher to all the container elements.
  *
  * @param {jQuery} container
+ * @param options
  */
-export default (container) => {
-  container.on('change', '*', update(container))
-  update(container)()
+export default (container, options = {}) => {
+  container.on('change', '*', update(container, options))
+  update(container, options)()
 }

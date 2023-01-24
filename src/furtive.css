@@ -1,4 +1,9 @@
 /* Hide by default for a smoother result */
-[data-furtive-condition]:not([data-furtive-condition=""]) {
+[data-furtive-condition]:not([data-furtive-hidden]) {
   display: none;
+}
+
+/* Hide the element if the condition is false */
+[data-furtive-hidden="true"] {
+  display: none !important;
 }

@@ -13,7 +13,7 @@
   "license": "MIT",
   "scripts": {
     "build": "rollup -c",
-    "prepare": "pnpm build"
+    "prepublishOnly": "pnpm build"
   },
   "files": [
     "dist"

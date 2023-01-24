@@ -39,9 +39,8 @@ window.Furtive = $.extend({}, defaultOptions, window.Furtive || {})
 /**
  * Auto-binding can be prevented by settings the "window.Furtive.autoBind" value to FALSE.
  */
-if (false !== window.Furtive.autoBind) {
-  $(function () {
-    const el = $('[data-furtive-watch]')
-    return el.length && el.furtive()
-  })
-}
+$(function () {
+  if (window.Furtive.autoBind) {
+    $('[data-furtive-watch]').furtive()
+  }
+})

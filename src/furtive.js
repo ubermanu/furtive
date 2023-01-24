@@ -1,10 +1,10 @@
 import $ from 'jquery'
 
-const condition = 'data-furtive-condition'
-const conjunction = 'data-furtive-conjunction'
-const disabled = 'data-furtive-disabled'
-const required = 'data-furtive-required'
-const hidden = 'data-furtive-hidden'
+const CONDITION_ATTR = 'data-furtive-condition'
+const CONJUNCTION_ATTR = 'data-furtive-conjunction'
+const DISABLED_ATTR = 'data-furtive-disabled'
+const REQUIRED_ATTR = 'data-furtive-required'
+const HIDDEN_ATTR = 'data-furtive-hidden'
 
 /**
  * When a change is detected into the sub-elements, the watcher will be triggered.
@@ -16,16 +16,16 @@ const update = (container) => () => {
   const validator = $
   validator.extend($.expr[':'], window.Furtive.pseudos)
 
-  const elements = container.find('[' + condition + ']')
+  const elements = container.find('[' + CONDITION_ATTR + ']')
 
   elements.each((k, item) => {
-    const cond = $(item).attr(condition),
-      conj = $(item).attr(conjunction),
+    const cond = $(item).attr(CONDITION_ATTR),
+      conj = $(item).attr(CONJUNCTION_ATTR),
       $item = $(item)
 
     // If the condition is empty, show the element
     if (cond === undefined || !cond.length) {
-      $item.attr(hidden, false)
+      $item.attr(HIDDEN_ATTR, false)
       return
     }
 
@@ -47,7 +47,7 @@ const update = (container) => () => {
         : matches > 0
 
     // Set the custom "hidden" attribute to the element
-    $item.attr(hidden, !visible)
+    $item.attr(HIDDEN_ATTR, !visible)
 
     // Disable/enable the hidden <input> elements
     // This is useful to prevent the browser to validate the form with hidden fields
@@ -76,13 +76,13 @@ const update = (container) => () => {
  * @param el
  */
 const disableElement = (el) => {
-  if (el.attr(disabled) === undefined) {
-    el.attr(disabled, el.prop('disabled'))
+  if (el.attr(DISABLED_ATTR) === undefined) {
+    el.attr(DISABLED_ATTR, el.prop('disabled'))
     el.prop('disabled', true)
   }
 
-  if (el.attr(required) === undefined) {
-    el.attr(required, el.prop('required'))
+  if (el.attr(REQUIRED_ATTR) === undefined) {
+    el.attr(REQUIRED_ATTR, el.prop('required'))
     el.prop('required', false)
   }
 }
@@ -92,11 +92,11 @@ const disableElement = (el) => {
  * @param el
  */
 const enableElement = (el) => {
-  el.prop('disabled', el.attr(disabled) === 'true')
-  el.removeAttr(disabled)
+  el.prop('disabled', el.attr(DISABLED_ATTR) === 'true')
+  el.removeAttr(DISABLED_ATTR)
 
-  el.prop('required', el.attr(required) === 'true')
-  el.removeAttr(required)
+  el.prop('required', el.attr(REQUIRED_ATTR) === 'true')
+  el.removeAttr(REQUIRED_ATTR)
 }
 
 /**

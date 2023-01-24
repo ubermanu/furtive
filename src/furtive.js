@@ -1,6 +1,6 @@
-import $ from "jquery";
-import { version } from "../package.json";
-import pseudos from "./pseudos.js";
+import $ from 'jquery'
+import { version } from '../package.json' assert { type: 'json' }
+import pseudos from './pseudos.js'
 
 /**
  * This function will bind all the main watcher to all the container elements.
@@ -8,77 +8,77 @@ import pseudos from "./pseudos.js";
  * @private
  */
 let Furtive = function ($container) {
-  const condition = "data-furtive-condition";
-  const conjunction = "data-furtive-conjunction";
-  const disabled = "data-furtive-disabled";
-  const required = "data-furtive-required";
+  const condition = 'data-furtive-condition'
+  const conjunction = 'data-furtive-conjunction'
+  const disabled = 'data-furtive-disabled'
+  const required = 'data-furtive-required'
 
   // Use an internal copy of jQuery at this point (to avoid conflict with other pseudos)
-  const _jQuery = $;
-  _jQuery.extend($.expr[":"], window.Furtive.pseudos);
+  const _jQuery = $
+  _jQuery.extend($.expr[':'], window.Furtive.pseudos)
 
   let watcher = function () {
-    $container.find("[" + condition + "]").each(function (k, item) {
-      let cond = $(item).attr(condition);
-      let conj = $(item).attr(conjunction);
-      let $item = $(item);
+    $container.find('[' + condition + ']').each(function (k, item) {
+      let cond = $(item).attr(condition)
+      let conj = $(item).attr(conjunction)
+      let $item = $(item)
 
       if (cond !== undefined && cond.length) {
         // Extract selectors from the given condition
-        let selectors = cond.match(/('.*?'|[^',]+)+(?=\s*|\s*$)/g);
-        let matches = 0;
+        let selectors = cond.match(/('.*?'|[^',]+)+(?=\s*|\s*$)/g)
+        let matches = 0
 
         for (let i = 0, l = selectors.length; i < l; i++) {
           if (_jQuery(selectors[i]).length) {
-            matches++;
+            matches++
           }
         }
 
         let visible =
-          conj && conj.toLowerCase() === "and"
+          conj && conj.toLowerCase() === 'and'
             ? matches === selectors.length
-            : matches > 0;
+            : matches > 0
 
-        $item.toggle(visible);
+        $item.toggle(visible)
 
         if (false !== window.Furtive.disableHidden) {
-          $item.find(":input").each(function (z, input) {
-            let $input = $(input);
+          $item.find(':input').each(function (z, input) {
+            let $input = $(input)
 
             // Stash the old disabled and require properties and apply new one
             if (!visible) {
               if ($input.attr(disabled) === undefined) {
-                $input.attr(disabled, $input.prop("disabled"));
-                $input.prop("disabled", true);
+                $input.attr(disabled, $input.prop('disabled'))
+                $input.prop('disabled', true)
               }
 
               if ($input.attr(required) === undefined) {
-                $input.attr(required, $input.prop("required"));
-                $input.prop("required", false);
+                $input.attr(required, $input.prop('required'))
+                $input.prop('required', false)
               }
             }
 
             // Re-apply the old disabled and required properties
             if (visible) {
-              $input.prop("disabled", $input.attr(disabled) === "true");
-              $input.removeAttr(disabled);
+              $input.prop('disabled', $input.attr(disabled) === 'true')
+              $input.removeAttr(disabled)
 
-              $input.prop("required", $input.attr(required) === "true");
-              $input.removeAttr(required);
+              $input.prop('required', $input.attr(required) === 'true')
+              $input.removeAttr(required)
             }
-          });
+          })
         }
       }
-    });
-  };
+    })
+  }
 
   $container
-    .find(":checkbox, :radio, :file, select")
+    .find(':checkbox, :radio, :file, select')
     .change(watcher)
-    .triggerHandler("change");
+    .triggerHandler('change')
 
-  $container.find(":text, textarea").keyup(watcher).triggerHandler("keyup");
-};
+  $container.find(':text, textarea').keyup(watcher).triggerHandler('keyup')
+}
 
 /**
  * Initialize the Furtive plugin on the selection.
@@ -88,14 +88,14 @@ let Furtive = function ($container) {
 $.fn.furtive = function () {
   if (this.length > 1) {
     this.each(function () {
-      $(this).furtive();
-    });
+      $(this).furtive()
+    })
   }
 
   if (this.length === 1) {
-    Furtive($(this));
+    Furtive($(this))
   }
-};
+}
 
 /**
  * Ensure the extension is now defined if it wasn't previously.
@@ -105,13 +105,13 @@ $.fn.furtive = function () {
  *
  * @public
  */
-if ("undefined" === typeof window.Furtive) {
+if ('undefined' === typeof window.Furtive) {
   window.Furtive = {
     autoBind: true,
     disableHidden: true,
     pseudos,
     version,
-  };
+  }
 }
 
 /**
@@ -119,7 +119,9 @@ if ("undefined" === typeof window.Furtive) {
  */
 if (false !== window.Furtive.autoBind) {
   $(function () {
-    const el = $("[data-furtive-watch]");
-    return el.length && el.furtive();
-  });
+    const el = $('[data-furtive-watch]')
+    return el.length && el.furtive()
+  })
 }
+
+export default Furtive

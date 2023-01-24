@@ -10,7 +10,7 @@ export default {
    * @return {boolean}
    */
   equals: function (e, index, parts) {
-    return $(e).val() === parts[3];
+    return $(e).val() === parts[3]
   },
 
   /**
@@ -18,7 +18,7 @@ export default {
    * @return {boolean}
    */
   filled: function (e) {
-    return $(e).val().length > 0;
+    return $(e).val().length > 0
   },
 
   /**
@@ -28,7 +28,7 @@ export default {
    * @return {boolean}
    */
   contains: function (e, index, parts) {
-    return $(e).val().indexOf(parts[3]) > -1;
+    return $(e).val().indexOf(parts[3]) > -1
   },
 
   /**
@@ -38,7 +38,7 @@ export default {
    * @return {boolean}
    */
   gt: function (e, index, parts) {
-    return +$(e).val() > +parts[3];
+    return +$(e).val() > +parts[3]
   },
 
   /**
@@ -48,7 +48,7 @@ export default {
    * @return {boolean}
    */
   gte: function (e, index, parts) {
-    return +$(e).val() >= +parts[3];
+    return +$(e).val() >= +parts[3]
   },
 
   /**
@@ -58,7 +58,7 @@ export default {
    * @return {boolean}
    */
   lt: function (e, index, parts) {
-    return +$(e).val() < +parts[3];
+    return +$(e).val() < +parts[3]
   },
 
   /**
@@ -68,6 +68,6 @@ export default {
    * @return {boolean}
    */
   lte: function (e, index, parts) {
-    return +$(e).val() <= +parts[3];
+    return +$(e).val() <= +parts[3]
   },
-};
+}

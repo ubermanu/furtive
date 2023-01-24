@@ -19,6 +19,13 @@ $.fn.furtive = function () {
   }
 }
 
+const defaultOptions = {
+  autoBind: true,
+  disableHidden: true,
+  pseudos,
+  version,
+}
+
 /**
  * Ensure the extension is now defined if it wasn't previously.
  * Auto binding is set to TRUE by default.
@@ -27,14 +34,7 @@ $.fn.furtive = function () {
  *
  * @public
  */
-if ('undefined' === typeof window.Furtive) {
-  window.Furtive = {
-    autoBind: true,
-    disableHidden: true,
-    pseudos,
-    version,
-  }
-}
+window.Furtive = $.extend({}, defaultOptions, window.Furtive || {})
 
 /**
  * Auto-binding can be prevented by settings the "window.Furtive.autoBind" value to FALSE.

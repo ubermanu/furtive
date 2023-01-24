@@ -11,15 +11,17 @@ const hidden = 'data-furtive-hidden'
  * Re-evaluate the condition and show/hide the element accordingly.
  * @private
  */
-const update = ($container) => () => {
+const update = (container) => () => {
   // Use an internal copy of jQuery at this point (to avoid conflict with other pseudos)
-  const _jQuery = $
-  _jQuery.extend($.expr[':'], window.Furtive.pseudos)
+  const validator = $
+  validator.extend($.expr[':'], window.Furtive.pseudos)
 
-  $container.find('[' + condition + ']').each((k, item) => {
-    let cond = $(item).attr(condition)
-    let conj = $(item).attr(conjunction)
-    let $item = $(item)
+  const elements = container.find('[' + condition + ']')
+
+  elements.each((k, item) => {
+    const cond = $(item).attr(condition),
+      conj = $(item).attr(conjunction),
+      $item = $(item)
 
     // If the condition is empty, show the element
     if (cond === undefined || !cond.length) {
@@ -32,7 +34,7 @@ const update = ($container) => () => {
     let matches = 0
 
     for (let i = 0, l = selectors.length; i < l; i++) {
-      if (_jQuery(selectors[i]).length) {
+      if (validator(selectors[i]).length) {
         matches++
       }
     }
@@ -50,49 +52,60 @@ const update = ($container) => () => {
     // Disable/enable the hidden <input> elements
     // This is useful to prevent the browser to validate the form with hidden fields
     if (window.Furtive.disableHidden) {
-      $item.find(':input').each((z, input) => {
-        let $input = $(input)
+      const children = Array.from($item.find(':input'))
 
-        // Stash the old disabled and require properties and apply new one
+      // If the element is an input, add it to the list
+      if ($item.is(':input')) {
+        children.push($item)
+      }
+
+      for (let i = 0, l = children.length; i < l; i++) {
         if (!visible) {
-          if ($input.attr(disabled) === undefined) {
-            $input.attr(disabled, $input.prop('disabled'))
-            $input.prop('disabled', true)
-          }
-
-          if ($input.attr(required) === undefined) {
-            $input.attr(required, $input.prop('required'))
-            $input.prop('required', false)
-          }
+          disableElement(children[i])
+        } else {
+          enableElement(children[i])
         }
-
-        // Re-apply the old disabled and required properties
-        if (visible) {
-          $input.prop('disabled', $input.attr(disabled) === 'true')
-          $input.removeAttr(disabled)
-
-          $input.prop('required', $input.attr(required) === 'true')
-          $input.removeAttr(required)
-        }
-      })
+      }
     }
   })
+}
+
+/**
+ * Disable the given element and store the current state into the element's attributes.
+ * This will allow to re-enable the element later.
+ * @param el
+ */
+const disableElement = (el) => {
+  if (el.attr(disabled) === undefined) {
+    el.attr(disabled, el.prop('disabled'))
+    el.prop('disabled', true)
+  }
+
+  if (el.attr(required) === undefined) {
+    el.attr(required, el.prop('required'))
+    el.prop('required', false)
+  }
+}
+
+/**
+ * Enable the element and remove the stored state from the element's attributes.
+ * @param el
+ */
+const enableElement = (el) => {
+  el.prop('disabled', el.attr(disabled) === 'true')
+  el.removeAttr(disabled)
+
+  el.prop('required', el.attr(required) === 'true')
+  el.removeAttr(required)
 }
 
 /**
  * Return the start function.
  * This function will bind all the main watcher to all the container elements.
  *
- * @param {jQuery} $container
+ * @param {jQuery} container
  */
-export default ($container) => {
-  $container
-    .find(':checkbox, :radio, :file, select')
-    .on('change', update($container))
-    .triggerHandler('change')
-
-  $container
-    .find(':text, textarea')
-    .on('keyup', update($container))
-    .triggerHandler('keyup')
+export default (container) => {
+  container.on('change', '*', update(container))
+  update(container)()
 }

@@ -2,8 +2,7 @@ import $ from 'jquery'
 
 const CONDITION_ATTR = 'data-furtive-condition'
 const CONJUNCTION_ATTR = 'data-furtive-conjunction'
-const DISABLED_ATTR = 'data-furtive-disabled'
-const REQUIRED_ATTR = 'data-furtive-required'
+const STATE_ATTR = 'data-furtive-state'
 const HIDDEN_ATTR = 'data-furtive-hidden'
 
 /**
@@ -76,15 +75,11 @@ const update = (container) => () => {
  * @param el
  */
 const disableElement = (el) => {
-  if (el.attr(DISABLED_ATTR) === undefined) {
-    el.attr(DISABLED_ATTR, el.prop('disabled'))
-    el.prop('disabled', true)
+  const state = {
+    disabled: el.prop('disabled'),
+    required: el.prop('required'),
   }
-
-  if (el.attr(REQUIRED_ATTR) === undefined) {
-    el.attr(REQUIRED_ATTR, el.prop('required'))
-    el.prop('required', false)
-  }
+  el.attr(STATE_ATTR, JSON.stringify(state))
 }
 
 /**
@@ -92,11 +87,14 @@ const disableElement = (el) => {
  * @param el
  */
 const enableElement = (el) => {
-  el.prop('disabled', el.attr(DISABLED_ATTR) === 'true')
-  el.removeAttr(DISABLED_ATTR)
-
-  el.prop('required', el.attr(REQUIRED_ATTR) === 'true')
-  el.removeAttr(REQUIRED_ATTR)
+  try {
+    const state = JSON.parse(el.attr(STATE_ATTR))
+    el.prop('disabled', state.disabled)
+    el.prop('required', state.required)
+  } catch (e) {
+    // Do nothing
+  }
+  el.removeAttr(STATE_ATTR)
 }
 
 /**

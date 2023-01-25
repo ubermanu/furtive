@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import pseudos from './pseudos.js'
 
 const CONDITION_ATTR = 'data-furtive-condition'
 const CONJUNCTION_ATTR = 'data-furtive-conjunction'
@@ -6,14 +7,25 @@ const STATE_ATTR = 'data-furtive-state'
 const HIDDEN_ATTR = 'data-furtive-hidden'
 
 /**
+ * Default options for the plugin.
+ * @type {{disableHidden: boolean, pseudos: {}}}
+ */
+const defaultOptions = {
+  disableHidden: true,
+  pseudos: {},
+}
+
+/**
+ * Returns a function that will update the visibility of the elements.
  * When a change is detected into the sub-elements, the watcher will be triggered.
  * Re-evaluate the condition and show/hide the element accordingly.
  * @private
  */
-const update = (container, options) => () => {
+const createUpdateFunction = (container, options) => () => {
   // Use an internal copy of jQuery at this point (to avoid conflict with other pseudos)
+  // TODO: Find a better way to do this
   const validator = $
-  validator.extend($.expr[':'], options.pseudos)
+  validator.extend($.expr[':'], pseudos, options.pseudos || {})
 
   const elements = container.find('[' + CONDITION_ATTR + ']')
 
@@ -29,7 +41,7 @@ const update = (container, options) => () => {
     }
 
     // Extract selectors from the given condition
-    let selectors = cond.match(/('.*?'|[^',]+)+(?=\s*|\s*$)/g)
+    const selectors = cond.match(/('.*?'|[^',]+)+(?=\s*|\s*$)/g)
     let matches = 0
 
     for (let i = 0, l = selectors.length; i < l; i++) {
@@ -116,6 +128,13 @@ const enableElement = (el) => {
  * @param options
  */
 export default (container, options = {}) => {
-  container.on('change', '*', update(container, options))
-  update(container, options)()
+  options = $.extend({}, defaultOptions, options)
+
+  // Create the update function and bind it to the container events
+  const update = createUpdateFunction(container, options)
+  container.on('change, input', '*', update)
+  container.on('furtive:refresh', update)
+
+  // Run the update function once to initialize the elements
+  update()
 }

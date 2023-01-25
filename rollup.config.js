@@ -1,5 +1,6 @@
 import json from '@rollup/plugin-json'
 import terser from '@rollup/plugin-terser'
+import copy from 'rollup-plugin-copy'
 import pkg from './package.json' assert { type: 'json' }
 
 const output = {
@@ -34,7 +35,12 @@ export default [
         sourcemap: true,
       },
     ],
-    plugins: [json()],
+    plugins: [
+      json(),
+      copy({
+        targets: [{ src: 'src/furtive.css', dest: 'dist' }],
+      }),
+    ],
     external: ['jquery'],
   },
 ]

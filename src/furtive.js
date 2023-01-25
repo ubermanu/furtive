@@ -80,9 +80,13 @@ const disableElement = (el) => {
   }
   const state = {
     disabled: el.prop('disabled'),
+    checked: el.prop('checked'),
+    value: el.val(),
   }
   el.attr(STATE_ATTR, JSON.stringify(state))
   el.prop('disabled', true)
+  el.prop('checked', false)
+  el.val('')
 }
 
 /**
@@ -96,6 +100,8 @@ const enableElement = (el) => {
   try {
     const state = JSON.parse(el.attr(STATE_ATTR))
     el.prop('disabled', state.disabled ?? false)
+    el.prop('checked', state.checked ?? false)
+    el.val(state.value ?? '')
   } catch (e) {
     // Do nothing
   }

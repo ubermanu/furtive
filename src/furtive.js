@@ -75,11 +75,16 @@ const update = (container, options) => () => {
  * @param el
  */
 const disableElement = (el) => {
+  if (el.attr(STATE_ATTR)) {
+    return
+  }
   const state = {
     disabled: el.prop('disabled'),
     required: el.prop('required'),
   }
   el.attr(STATE_ATTR, JSON.stringify(state))
+  el.prop('disabled', true)
+  el.prop('required', false)
 }
 
 /**
@@ -87,10 +92,13 @@ const disableElement = (el) => {
  * @param el
  */
 const enableElement = (el) => {
+  if (!el.attr(STATE_ATTR)) {
+    return
+  }
   try {
     const state = JSON.parse(el.attr(STATE_ATTR))
-    el.prop('disabled', state.disabled)
-    el.prop('required', state.required)
+    el.prop('disabled', state.disabled ?? false)
+    el.prop('required', state.required ?? false)
   } catch (e) {
     // Do nothing
   }

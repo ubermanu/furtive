@@ -33,7 +33,7 @@ const update = (container, options) => () => {
     let matches = 0
 
     for (let i = 0, l = selectors.length; i < l; i++) {
-      if (validator(selectors[i]).length) {
+      if (validator(container).find(selectors[i]).length) {
         matches++
       }
     }

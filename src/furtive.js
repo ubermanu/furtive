@@ -51,20 +51,20 @@ const update = (container, options) => () => {
     // Disable/enable the hidden <input> elements
     // This is useful to prevent the browser to validate the form with hidden fields
     if (options.disableHidden) {
-      const children = Array.from($item.find(':input'))
+      const children = $item.find(':input')
 
       // If the element is an input, add it to the list
       if ($item.is(':input')) {
         children.push($item)
       }
 
-      for (let i = 0, l = children.length; i < l; i++) {
-        if (!visible) {
-          disableElement(children[i])
+      children.each((k, item) => {
+        if (visible) {
+          enableElement($(item))
         } else {
-          enableElement(children[i])
+          disableElement($(item))
         }
-      }
+      })
     }
   })
 }

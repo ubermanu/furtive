@@ -19,20 +19,28 @@ $.fn.furtive = function (options) {
 }
 
 /**
- * Ensure the extension is now defined if it wasn't previously.
  * Auto binding is set to TRUE by default.
  * Disable hidden <input> elements is set to TRUE by default.
  * Custom "pseudos" can be added as well.
- *
+ * @type {{autoBind: boolean, disableHidden: boolean, pseudos: {}}}
+ */
+const globalOptions = {
+  autoBind: true,
+  pseudos: {},
+  disableHidden: true,
+}
+
+/**
+ * Ensure the extension is now defined if it wasn't previously.
  * @public
  */
-window.Furtive = $.extend({}, { autoBind: true }, window.Furtive || {}, { version })
+window.Furtive = $.extend({}, globalOptions, window.Furtive || {}, { version })
 
 /**
  * Auto-binding can be prevented by settings the "window.Furtive.autoBind" value to FALSE.
  */
 $(function () {
-  if (window.Furtive.autoBind) {
-    $('[data-furtive-watch]').furtive()
+  if (typeof window.Furtive !== 'undefined' || window.Furtive.autoBind) {
+    $('[data-furtive-watch]').furtive(window.Furtive || {})
   }
 })

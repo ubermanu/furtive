@@ -122,7 +122,7 @@ const enableElement = (el) => {
 
 /**
  * Return the start function.
- * This function will bind all the main watcher to all the container elements.
+ * This function will bind the update function to the container elements events.
  *
  * @param {jQuery} container
  * @param options
